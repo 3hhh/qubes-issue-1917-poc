@@ -15,6 +15,9 @@ XINITRC="$SCRIPT_DIR/xinitrc"
 LOCK_VT=3
 LOCK_DISPLAY=3
 
+#make sure physlock is in PATH
+PATH="$PATH:/usr/local/bin"
+
 #log [msg]
 function log {
 local msg="$1"
@@ -37,6 +40,8 @@ done
 }
 
 [[ "$(whoami)" == "root" ]] || error "This script must be run as root."
+command -v "physlock" &> /dev/null || error "physlock must be installed!"
+
 ignoreAllSignals
 
 #make sure the target VT is not running any processes / shows a PAM logon
