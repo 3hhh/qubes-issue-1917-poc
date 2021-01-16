@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Lock the screen.
+# 
+# Application to be manually invoked by the user.
+#
+# Assumes that ./boot was run at boot time.
+
+set -e
+
+#make sure physlock is in PATH
+PATH="$PATH:/usr/local/bin"
+
+sudo rm -f "/tmp/unlock" #just for the xterm example, should generally not be needed
+
+sudo chvt 3
+physlock -l
