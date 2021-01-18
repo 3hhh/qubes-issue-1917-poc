@@ -1,0 +1,10 @@
+[Unit]
+Description=Run ./boot as systemd service (needs to be symlinked to /usr/bin/screenlock_boot).
+
+[Service]
+ExecStart=/usr/bin/screenlock_boot
+ExecStop=/bin/bash -c 'killall -9 screenlock_boot && pkill -9 -f "X :3" && killall -9 xinitrc'
+
+[Install]
+WantedBy=graphical.target
+After=getty.target
