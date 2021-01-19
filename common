@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# Some common code.
+
+XINITRC="$SCRIPT_DIR/xinitrc"
+MAIN_VT=1
+LOCK_VT=3
+LOCK_DISPLAY=3
+
+#screen locker application (xterm for testing)
+LOCKER="xterm ; [ -f /tmp/unlock ]" #xterm for testing, `touch /tmp/unlock ; exit` to unlock
+
+#make sure physlock is in PATH
+PATH="$PATH:/usr/local/bin"
+
+#log [msg]
+function log {
+local msg="$1"
+logger -p daemon.err -t "$SCRIPT_NAME" "[$BASHPID] $msg"
+}
+
+#error [msg]
+function error {
+local msg="$1"
+echo "$msg" >&2
+exit 1
+}

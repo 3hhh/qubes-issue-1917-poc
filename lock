@@ -8,10 +8,11 @@
 
 set -e
 
-#make sure physlock is in PATH
-PATH="$PATH:/usr/local/bin"
+SCRIPT_NAME="${BASH_SOURCE[0]##*/}"
+SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+source "$SCRIPT_DIR/common"
 
 sudo rm -f "/tmp/unlock" #just for the xterm example, should generally not be needed
 
-sudo chvt 3
+sudo chvt $LOCK_VT
 physlock -l

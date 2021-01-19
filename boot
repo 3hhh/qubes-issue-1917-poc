@@ -11,25 +11,7 @@
 
 SCRIPT_NAME="${BASH_SOURCE[0]##*/}"
 SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-XINITRC="$SCRIPT_DIR/xinitrc"
-LOCK_VT=3
-LOCK_DISPLAY=3
-
-#make sure physlock is in PATH
-PATH="$PATH:/usr/local/bin"
-
-#log [msg]
-function log {
-local msg="$1"
-logger -p daemon.err -t "$SCRIPT_NAME" "[$BASHPID] $msg"
-}
-
-#error [msg]
-function error {
-local msg="$1"
-echo "$msg" >&2
-exit 1
-}
+source "$SCRIPT_DIR/common"
 
 #ignoreAllSignals
 function ignoreAllSignals {
@@ -54,7 +36,3 @@ while : ; do
   switch_back=1 #if we switch back on retries, we may break an existing screen lock
   #maybe TODO: after several failed restarts, fall back to PAM logon (i.e. use physlock directly)
 done
-
-#ISSUES: 
-# - issues with Qubes OS assigning X windows to other X server?! seems so for new VMs -_-
-# - not all screenlockers properly set exit codes (seems hard for e.g. xscreenlocker), at least xsecurelock seems to do it; one can sometimes work around it by checking whether it correctly exited
